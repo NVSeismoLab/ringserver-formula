@@ -1,0 +1,32 @@
+#
+# Salt pillar example for ring.conf
+#
+
+#
+# Custom ringserver settings
+# - see ringserver/map.jinja for possible values
+# - i.e. install from local tarball
+#
+ringserver:
+  lookup:
+    url: http://my.local.domain.com/ringserver/ring-vers-latest.tar.gz
+    dir: /opt/ringserver-vers-latest
+
+#
+# Set config file contents
+# - name: full config file path
+# - settings: see ringserver/files/ring.conf template for possible values
+# - supervisor: see map.jinja and ringserver/files/supervisor.conf
+#
+ring_conf:
+  name: /opt/ringserver-vers-latest/doc/ring.conf
+
+  settings:
+    RingDirectory: /var/opt/ring
+  
+    DataLinkPort: 
+      - 16000
+  
+    SeedLinkPort: 
+      - 18000
+

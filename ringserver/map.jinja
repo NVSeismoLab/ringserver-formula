@@ -1,0 +1,39 @@
+#
+# Defaults for ringserver
+#
+
+# Settings for program:
+#
+# configfile : Full path name of ring config file
+# dir : directory of ringserver (name when untarred)
+# install : top level root to install 'dir' to
+# url : location of tarball of ringserver software
+# supervisor : dict of supervisor settings
+#   configfile : path to supervisor config file
+#   name : name of supervisor program
+#   user : user to run process as
+#   log : dir to store stdout/stderr logs
+#
+# OVERRIDE per instance from pillar with 'lookup'
+#
+{% set ringserver = salt['pillar.get']('ringserver:lookup', {
+    'dir': 'ringserver-2014.269',
+    'hash': 'md5=95237d068fbd0ce6f3d0dc179a70a64d',
+    'install': '/opt',
+    'url': 'https://seiscode.iris.washington.edu/attachments/download/595/ringserver-2014.269.tar.gz',
+}, merge=True) %}
+
+#
+# Contents of ring.conf from a pillar:
+#
+{% set ring_conf = salt['pillar.get']('ring_conf', {
+    'name': '/etc/opt/ring.conf',
+    'settings': {},
+    'supervisor': {
+        'configfile': '/etc/supervisor/conf.d/ringserver.conf',
+        'name': 'ringserver',
+        'user': 'root',
+        'log': '/var/opt'
+    }
+}, merge=True) %}
+
