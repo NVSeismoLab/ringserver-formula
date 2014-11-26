@@ -2,19 +2,14 @@
 # Defaults for ringserver
 #
 
-# Settings for program:
-#
-# configfile : Full path name of ring config file
+# Settings for installing ringserver software
+# -------------------------------------------
 # dir : directory of ringserver (name when untarred)
+# hash : hash of tarball to verify download
 # install : top level root to install 'dir' to
 # url : location of tarball of ringserver software
-# supervisor : dict of supervisor settings
-#   configfile : path to supervisor config file
-#   name : name of supervisor program
-#   user : user to run process as
-#   log : dir to store stdout/stderr logs
 #
-# OVERRIDE per instance from pillar with 'lookup'
+# OVERRIDE per instance from pillar with 'ringserver:lookup' dict
 #
 {% set ringserver = salt['pillar.get']('ringserver:lookup', {
     'dir': 'ringserver-2014.269',
@@ -24,7 +19,19 @@
 }, merge=True) %}
 
 #
-# Contents of ring.conf from a pillar:
+# Contents of ring.conf from a pillar
+# -----------------------------------
+# name: Full path of ring.conf config file to install/use
+#
+# settings: dict of 'ring.conf' parameters to include in file
+#
+# supervisor : dict of supervisor settings
+#   configfile : path to supervisor config file
+#   name : name of supervisor program
+#   user : user to run process as
+#   log : dir to store stdout/stderr logs
+#
+# OVERRIDE per instance from pillar with 'ring_conf' dict
 #
 {% set ring_conf = salt['pillar.get']('ring_conf', {
     'name': '/etc/opt/ring.conf',
